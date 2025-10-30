@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Catálogo de Livros{% endblock %}
+
+{% block content %}
+    <h2>Catálogo de Livros</h2>
+    {% if livros %}
+        <p>Estes são os livros cadastrados até o momento:</p>
+        <ul>
+            {% for livro in livros %}
+                <li>
+                    <strong>Livro:</strong> {{ livro.titulo }} | 
+                    <strong>Autor:</strong> {{ livro.autores }} | 
+                    <strong>Gênero:</strong> {{ livro.generos }} 
+                    <form action="{% url 'deletar_livro' livro.id %}" method="post" onsubmit="return confirm('Você tem certeza que deseja deletar este livro?');" style="display: inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="delete-button">Deletar</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Ainda não há nenhum livro cadastrado.</p>
+    {% endif %}
+    <div class="links-container">
+        <p><a href="{% url 'home' %}">Cadastrar um novo livro</a></p>
+        <p><a href="{% url 'home' %}">Voltar para a tela inicial</a></p>
+    </div>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}Página Inicial{% endblock %}
+
+{% block header %}
+    <h1>Meu Site De Livros.</h1>
+{% endblock %}
+
+{% block content %}
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Prosseguir</button>
+    </form>
+    <p style="margin-top: 2rem;"><a href="{% url 'lista_livros' %}">Ver todos os livros cadastrados</a></p>
+{% endblock %}
