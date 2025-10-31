@@ -1,29 +1,45 @@
-{% extends 'base.html' %}
+{% extends 'base2.html' %}
 {% load static %}
+
 {% block title %}Catálogo de Livros{% endblock %}
 
 {% block content %}
-    <h2>Catálogo de Livros</h2>
-    {% if livros %}
-        <p>Estes são os livros cadastrados até o momento:</p>
-        <ul>
-            {% for livro in livros %}
-                <li>
-                    <strong>Livro:</strong> {{ livro.titulo }} | 
-                    <strong>Autor:</strong> {{ livro.autores }} | 
-                    <strong>Gênero:</strong> {{ livro.generos }} 
-                    <form action="{% url 'deletar_livro' livro.id %}" method="post" onsubmit="return confirm('Você tem certeza que deseja deletar este livro?');" style="display: inline;">
-                        {% csrf_token %}
-                        <button type="submit" class="delete-button">Deletar</button>
-                    </form>
-                </li>
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>Ainda não há nenhum livro cadastrado.</p>
-    {% endif %}
-    <div class="links-container">
-        <p><a href="{% url 'home' %}">Cadastrar um novo livro</a></p>
-        <p><a href="{% url 'home' %}">Voltar para a tela inicial</a></p>
+<div class="login-container">
+    <div class="login-card" style="max-width: 800px; width: 100%;">
+        <div class="login-header">
+            <h2>Catálogo de Livros</h2>
+            {% if not livros %}
+                <p>Ainda não há nenhum livro cadastrado.</p>
+            {% else %}
+                <p>Estes são os livros cadastrados até o momento:</p>
+            {% endif %}
+        </div>
+
+        {% if livros %}
+            <ul style="list-style: none; padding: 0; width: 100%;">
+                {% for livro in livros %}
+                    <li class="neu-input" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; padding: 1rem;">
+                        <div>
+                            <strong style="display: block; font-size: 1.1em;">{{ livro.titulo }}</strong>
+                            <small><strong>Autor:</strong> {{ livro.autores }} | <strong>Gênero:</strong> {{ livro.generos }}</small>
+                        </div>
+                        <form action="{% url 'deletar_livro' livro.id %}" method="post" onsubmit="return confirm('Você tem certeza que deseja deletar este livro?');" style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="neu-button" style="background-color: #e64b3c; color: white;">Deletar</button>
+                        </form>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        <div class="divider">
+            <div class="divider-line"></div>
+        </div>
+
+        <div style="text-align: center; margin-top: 1rem;">
+            <a href="{% url 'adicionar_livro' %}" class="neu-button" style="text-decoration: none; margin-right: 10px;">Cadastrar Livro</a>
+            <a href="{% url 'perfil' %}" class="neu-button" style="text-decoration: none;">Meu Perfil</a>
+        </div>
     </div>
+</div>
 {% endblock %}

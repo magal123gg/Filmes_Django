@@ -1,13 +1,35 @@
-{% extends 'base.html' %}
+{% extends 'base2.html' %}
 
 {% block title %}Adicionar Livro{% endblock %}
 
 {% block content %}
-    <h2>Adicionar um Novo Livro</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Salvar</button>
-    </form>
-    <p><a href="{% url 'lista_livros' %}">Voltar para a lista</a></p>
+<div class="login-container">
+    <div class="login-card" style="max-width: 800px; width: 100%;">
+        <div class="login-header">
+            <h2>Adicionar um Novo Livro</h2>
+            <p>Preencha os detalhes do livro abaixo.</p>
+        </div>
+
+        <form method="post" style="width: 100%;">
+            {% csrf_token %}
+
+            {% for field in form %}
+                <div class="form-group">
+                    <div class="input-group neu-input">
+                        {{ field }}
+                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                    </div>
+                    {% if field.errors %}
+                        <span class="error-message" style="display: block;">{{ field.errors.as_text }}</span>
+                    {% endif %}
+                </div>
+            {% endfor %}
+
+            <div style="text-align: center; margin-top: 1.5rem; display: flex; justify-content: center; gap: 10px;">
+                <button type="submit" class="neu-button">Salvar Livro</button>
+                <a href="{% url 'lista_livros' %}" class="neu-button" style="text-decoration: none; background-color: #777;">Cancelar</a>
+            </div>
+        </form>
+    </div>
+</div>
 {% endblock %}
